@@ -1,31 +1,35 @@
-# recursively finds all .c files. Assumes corresponding .h file (if any) is in the same dir
+# Used to recursively find .c files (even in nested directories), and compile/link into a convenient executable. 
+# Assumption: corresponding .h files (if any) will be in the same directory as the .c file
+
 src = $(shell find . -name "*.c") 
 obj = $(src:.c=.o)
 dep = $(obj:.o=.d)  # one dependency file for each source
 
 output = main.out
 CC = gcc
-LDFLAGS = -lz -g # the -lz is to make sure the dependency files (.d) are used
+LDFLAGS = -lz # the -lz is to make sure the dependency files (.d) are used
 CFLAGS = -Wall -g -std=c99
 
 $(output): $(obj)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
--include $(dep)   # include all dep files in the makefile
+# Makefile automatically compiles .c to .o files using $(CFLAGS)
 
-
-# basically generates the dependency files for when we link our .o files
+# include all dep files in the Makefile
+-include $(dep)   
 %.d: %.c
 	@$(CC) $(CFLAGS) $< -MM -MT $(@:.d=.o) >$@
 
 
+# cleanup
 .PHONY: clean
+.PHONY: cleandep
+.PHONY: cleanall
+
 clean:
 	rm -f $(obj) $(output)
 
-.PHONY: cleandep
 cleandep:
 	rm -f $(dep)
 
-.PHONY: cleanall
 cleanall: clean cleandep
