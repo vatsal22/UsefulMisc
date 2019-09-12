@@ -9,7 +9,7 @@
             "type": "shell",
             "command": "make",
             "options": {
-                "cwd": "" // !!!change directory to location of Makefile
+                "cwd": "${workspaceFolder}/project" // !!!change directory to location of Makefile
         },      
         }
     ]
