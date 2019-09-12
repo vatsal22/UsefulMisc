@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "main.out", // !!!change to location of executable
+            "program": "${workspaceFolder}/project/main.out", // !!!change to location of executable
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
